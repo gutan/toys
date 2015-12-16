@@ -7,8 +7,10 @@
  */
 package info.gutan.toys.demo.guava.collection;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import org.junit.Test;
 
@@ -22,8 +24,7 @@ import com.google.common.collect.Sets;
  * 类功能描述：
  * 
  * <pre>
- * 有没有很熟悉？！
- * 检查一个map，是否存在一个key对应一个集合?不存在，则新建一个集合并添加一个<K,V>
+ * 有没有很熟悉？！ 检查一个map，是否存在一个key对应一个集合?不存在，则新建一个集合并添加一个<K,V>
  * 
  * @author <a href="mailto:iamyumingxing@gmail.com">iamyumingxing</a>
  * @since 2015年8月26日
@@ -31,62 +32,67 @@ import com.google.common.collect.Sets;
  */
 public class MultiMapTest {
 
-    Map<String, Set<String>> map = Maps.newHashMap();
+	Map<String, Set<String>> map = Maps.newHashMap();
 
-    private void put(String key, String value) {
-        Set<String> set = map.get(key);
-        if (null == set) {
-            set = Sets.newHashSet();
-            map.put(key, set);
-        }
-        set.add(value);
-    }
+	private void put(String key, String value) {
+		Set<String> set = map.get(key);
+		if (null == set) {
+			set = Sets.newHashSet();
+			map.put(key, set);
+		}
+		set.add(value);
+	}
 
-    @Test
-    public void usedToDo() {
+	@Test
+	public void usedToDo() {
 
-        put("tea", "green tea");
-        put("milk", "yoghourt");
-        put("milk", "pure milk");
-        put("tea", "black tea");
+		put("tea", "green tea");
+		put("milk", "yoghourt");
+		put("milk", "pure milk");
+		put("tea", "black tea");
 
-        System.out.println(map.keySet());
-        System.out.println(map.get("tea"));
-        System.out.println(map.get("milk"));
-        System.out.println(map.values());
+		System.out.println(map.keySet());
+		System.out.println(map.get("tea"));
+		System.out.println(map.get("milk"));
+		System.out.println(map.values());
 
-        // reinvent the Wheel
+		// reinvent the Wheel
 
-        // remove(k,v)
-        // removeAll(k)
+		// remove(k,v)
+		// removeAll(k)
 
-    }
+	}
 
-    Multimap<String, String> multiMap = HashMultimap.create();
+	Multimap<String, String> multiMap = HashMultimap.create();
 
-    @Test
-    public void guavaDo() {
+	@Test
+	public void guavaDo() {
 
-        multiMap.put("tea", "green tea");
-        multiMap.put("milk", "yoghourt");
-        multiMap.put("milk", "pure milk");
-        multiMap.put("tea", "black tea");
+		multiMap.put("tea", "green tea");
+		multiMap.put("milk", "yoghourt");
+		multiMap.put("milk", "pure milk");
+		multiMap.put("tea", "black tea");
 
-        System.out.println(multiMap.keySet());
-        System.out.println(multiMap.get("tea"));
-        System.out.println(multiMap.get("milk"));
-        System.out.println(multiMap.values());
+		System.out.println(multiMap.keySet());
+		System.out.println(multiMap.get("tea"));
+		System.out.println(multiMap.get("milk"));
+		System.out.println(multiMap.values());
 
-        System.out.println("=============remove=============");
+		Collection<Entry<String, String>> collection = multiMap.entries();
+		for (Entry<String, String> entry : collection) {
+			System.out.println(entry.getKey() + ":" + entry.getValue());
+		}
 
-        multiMap.remove("tea", "green tea");
-        multiMap.removeAll("milk");
+		System.out.println("=============remove=============");
 
-        System.out.println(multiMap.keySet());
-        System.out.println(multiMap.get("tea"));
-        System.out.println(multiMap.get("milk"));
-        System.out.println(multiMap.values());
+		multiMap.remove("tea", "green tea");
+		multiMap.removeAll("milk");
 
-    }
+		System.out.println(multiMap.keySet());
+		System.out.println(multiMap.get("tea"));
+		System.out.println(multiMap.get("milk"));
+		System.out.println(multiMap.values());
+
+	}
 
 }
